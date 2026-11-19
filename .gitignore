@@ -34,3 +34,8 @@ mobile/ios/
 .claude-flow/
 .swarm/
 .claude/
+
+demo/frames_mac/
+demo/silent_mac.mp4
+demo/*_mac.wav
+demo/pad*.wav

@@ -1,6 +1,13 @@
-
-[OK] Command outcome recorded
-
 .claude-flow
 .swarm
 .claude
+.impeccable
+demo
+mobile
+store
+music-studio
+node_modules
+*.mp4
+*.aab
+*.apk
+*.jks

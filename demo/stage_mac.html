@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Schritt launch stage (MacBook)</title>
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#000;color:#f5f5f7;font-family:"SF Pro Display",-apple-system,"Segoe UI Variable Display","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+#glow{position:absolute;left:1000px;top:60px;width:900px;height:900px;border-radius:50%;background-color:#0b6e8a;filter:blur(150px);opacity:.5;transition:background-color 1.4s ease}
+#glow2{position:absolute;left:-200px;top:700px;width:800px;height:600px;border-radius:50%;background:#1a1a2e;filter:blur(140px);opacity:.8}
+#cap{position:absolute;left:90px;top:50%;width:560px;transform:translateY(-50%)}
+#cap>*{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+#cap.in>*{opacity:1;transform:none}#cap.in #eyebrow{transition-delay:0s}#cap.in #title{transition-delay:.12s}#cap.in #sub{transition-delay:.28s}
+#eyebrow{font-size:22px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ac,#5ac8fa);margin-bottom:26px}
+#title{font-size:62px;font-weight:700;letter-spacing:-.035em;line-height:1.02;color:#f5f5f7;padding-bottom:10px}
+#sub{font-size:28px;line-height:1.4;color:#a1a1a6;margin-top:24px;max-width:540px;font-weight:400}
+#part{position:absolute;left:100px;bottom:70px;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:#6e6e73;transition:opacity .6s}
+#dots{position:absolute;left:100px;bottom:120px;display:flex;gap:8px}#dots i{width:8px;height:8px;border-radius:4px;background:#333;transition:all .5s}#dots i.on{width:34px;background:var(--ac,#5ac8fa)}
+
+#stagewrap{position:absolute;left:1280px;top:520px;width:0;height:0;perspective:2600px}
+#pose{position:absolute;left:0;top:0;transform-style:preserve-3d;transition:transform 1.5s cubic-bezier(.22,.8,.2,1)}
+#float{transform-style:preserve-3d;animation:fl 7s ease-in-out infinite}
+@keyframes fl{0%,100%{transform:translateY(-5px) rotateY(-1.2deg)}50%{transform:translateY(7px) rotateY(1.2deg)}}
+#mac{position:absolute;left:-560px;top:-390px;width:1120px;height:780px}
+#lid{position:absolute;left:0;top:0;width:1120px;height:716px;border-radius:26px 26px 6px 6px;padding:14px;background:linear-gradient(160deg,#a9acb2,#4a4b50 30%,#8b8e94 60%,#2a2b2e);box-shadow:0 60px 120px rgba(0,0,0,.7),inset 0 0 0 2px rgba(255,255,255,.22)}
+#bez{position:relative;width:100%;height:100%;border-radius:14px;background:#000;padding:10px 10px 12px}
+#notch{position:absolute;left:50%;top:0;width:150px;height:22px;margin-left:-75px;border-radius:0 0 14px 14px;background:#000;z-index:20}
+#base{position:absolute;left:-60px;top:714px;width:1240px;height:22px;border-radius:2px 2px 26px 26px;background:linear-gradient(#cfd1d6,#8d9096 60%,#5c5e63);box-shadow:0 30px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.7)}
+#base::before{content:"";position:absolute;left:50%;top:0;width:190px;height:9px;margin-left:-95px;border-radius:0 0 12px 12px;background:linear-gradient(#7c7f85,#a9acb1)}
+#vp{position:relative;width:1280px;height:800px;border-radius:8px;overflow:hidden;transform-origin:0 0;transform:scale(.8325);background:linear-gradient(135deg,#1b2b4b 0%,#4a2c6b 38%,#c4577a 70%,#f09a5b 100%)}
+#screen{position:absolute;inset:0}
+#mb{position:absolute;left:0;top:0;width:1280px;height:28px;z-index:6;background:rgba(20,20,24,.45);backdrop-filter:blur(14px);color:#f5f5f7;font:500 14px -apple-system,"SF Pro Text","Segoe UI",sans-serif}
+#mb span{position:absolute;top:5px}#mb .ap{left:20px;font-size:16px;top:3px}#mb .ap2{left:52px;font-weight:700}#mb .m1{left:112px}#mb .m2{left:168px}#mb .m3{left:222px}#mb .rt{right:20px}
+#win{position:absolute;left:24px;top:44px;width:1232px;height:732px;border-radius:12px;overflow:hidden;background:#000;z-index:3;box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.14)}
+#tb{position:absolute;left:0;top:0;width:1232px;height:40px;background:linear-gradient(#2c2c2f,#232326);z-index:5;border-bottom:1px solid #111}
+#tb i{position:absolute;top:13px;width:13px;height:13px;border-radius:50%}#tb .r{left:16px;background:#ff5f57}#tb .y{left:36px;background:#febc2e}#tb .g{left:56px;background:#28c840}
+#tb .url{position:absolute;left:50%;top:7px;width:420px;height:26px;margin-left:-210px;border-radius:7px;background:#17171a;color:#a1a1a6;font:500 13px -apple-system,"Segoe UI",sans-serif;text-align:center;line-height:26px}
+#app{position:absolute;left:0;top:40px;width:1232px;height:692px;border:0;background:#000;z-index:2}
+#finger{position:absolute;left:-60px;top:-60px;width:26px;height:26px;margin:0;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 2l16 9-7 2 4 8-3 1.5-4-8-6 5z' fill='%23fff' stroke='%23000' stroke-width='1.6' stroke-linejoin='round'/></svg>") no-repeat;background-size:contain;filter:drop-shadow(0 3px 5px rgba(0,0,0,.5));z-index:9;opacity:0;pointer-events:none;transition:left .75s cubic-bezier(.3,.7,.2,1),top .75s cubic-bezier(.3,.7,.2,1),opacity .3s,transform .15s}
+#finger.show{opacity:1}#finger.down{transform:scale(.82)}
+.rip{position:absolute;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;border:3px solid rgba(90,200,250,.9);z-index:8;animation:rip .6s ease-out forwards;pointer-events:none}@keyframes rip{to{transform:scale(3.6);opacity:0}}
+#fade{position:absolute;inset:0;background:#000;opacity:0;transition:opacity .7s;pointer-events:none}
+</style></head>
+<body>
+<div id="glow"></div><div id="glow2"></div>
+<div id="cap"><div id="eyebrow"></div><div id="title"></div><div id="sub"></div></div>
+<div id="dots"></div><div id="part"></div>
+<div id="stagewrap"><div id="pose"><div id="float"><div id="mac"><div id="lid"><div id="bez"><div id="notch"></div><div id="vp"><div id="screen">
+  <div id="mb"><span class="ap">&#63743;</span><span class="ap2">Safari</span><span class="m1">File</span><span class="m2">View</span><span class="m3">Window</span><span class="rt">Wed 9:41 AM</span></div>
+  <div id="win"><div id="tb"><i class="r"></i><i class="y"></i><i class="g"></i><div class="url">schritt-rosy.vercel.app</div></div>
+  <iframe id="app" src="/app/index.html" title="Schritt"></iframe><div id="finger"></div></div>
+</div></div></div></div><div id="base"></div></div></div></div></div>
+<div id="fade"></div>
+<script>
+const $app = document.getElementById("app"), screenEl = document.getElementById("screen"), fingerEl = document.getElementById("finger"), winEl = document.getElementById("win"), root = document.documentElement;
+const D = () => $app.contentDocument, W = () => $app.contentWindow, sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const POSES = {
+  hidden: "translate3d(0,1300px,-200px) rotateY(-18deg) scale(.9)",
+  hero: "translate3d(0,0,0) rotateY(-9deg) rotateX(2deg) scale(.98)",
+  left: "translate3d(-40px,0,0) rotateY(10deg) rotateX(2deg) scale(.98)",
+  flat: "translate3d(0,0,0) rotateY(0) rotateX(0) scale(1)",
+  tilt: "translate3d(20px,0,0) rotateY(-14deg) rotateX(3deg) scale(.98)",
+  center: "translate3d(-420px,0,0) rotateY(0) scale(1.02)"
+};
+function sbSync() {
+  try {
+    const d = D(); let el = d.elementFromPoint(195, 3), bg = "";
+    while (el && el !== d.documentElement) { const c = W().getComputedStyle(el).backgroundColor; if (c && c !== "rgba(0, 0, 0, 0)" && c !== "transparent") { bg = c; break; } el = el.parentElement; }
+    if (bg) { root.style.setProperty("--sbbg", bg); let el2 = d.elementFromPoint(195, 770), bg2 = ""; while (el2 && el2 !== d.documentElement) { const c = W().getComputedStyle(el2).backgroundColor; if (c && c !== "rgba(0, 0, 0, 0)" && c !== "transparent") { bg2 = c; break; } el2 = el2.parentElement; } root.style.setProperty("--hbbg", bg2 || bg); }
+  } catch (e) { /* iframe not ready */ }
+}
+
+function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+window.demo = {
+  async ready() { for (let i = 0; i < 100 && !(D() && D().readyState === "complete" && W().__schritt); i++) await sleep(100); await sleep(400); return !!W().__schritt; },
+  pose(name) { document.getElementById("pose").style.transform = POSES[name] || POSES.hero; },
+  fade(v) { document.getElementById("fade").style.opacity = v; },
+  caption(o) {
+    const cap = document.getElementById("cap"); cap.classList.remove("in");
+    return sleep(450).then(() => {
+      if (o.ac) { root.style.setProperty("--ac", o.ac); document.getElementById("glow").style.backgroundColor = o.glow || o.ac; }
+      document.getElementById("eyebrow").textContent = o.eyebrow || ""; document.getElementById("title").innerHTML = o.title || ""; document.getElementById("sub").textContent = o.sub || "";
+      document.getElementById("part").textContent = o.part || "";
+      const dots = document.getElementById("dots"); if (o.dots) { dots.innerHTML = o.dots.map((on) => '<i class="' + (on ? "on" : "") + '"></i>').join(""); }
+      cap.classList.add("in");
+    });
+  },
+  el(sel) { return typeof sel === "string" ? D().querySelector(sel) : sel(D()); },
+  async tap(sel, opt) {
+    opt = opt || {}; let el = this.el(sel); if (!el) throw new Error("tap target missing: " + sel);
+    const vh = 692; let r = el.getBoundingClientRect();
+    if (r.top < 60 || r.bottom > vh - 20) { await this.scrollToEl(el); r = el.getBoundingClientRect(); }
+    const x = r.left + r.width / 2, y = r.top + r.height / 2 + 40;
+    fingerEl.classList.add("show"); fingerEl.style.left = x + "px"; fingerEl.style.top = y + "px"; await sleep(850);
+    fingerEl.classList.add("down"); const rip = document.createElement("div"); rip.className = "rip"; rip.style.left = x + "px"; rip.style.top = y + "px"; winEl.appendChild(rip); setTimeout(() => rip.remove(), 700);
+    await sleep(160); if (opt.focus) el.focus(); else el.click(); fingerEl.classList.remove("down"); await sleep(opt.after == null ? 450 : opt.after);
+    if (opt.hide !== false) setTimeout(() => fingerEl.classList.remove("show"), 400);
+  },
+  async scrollToEl(el) { const sc = this.scroller(el); const r = el.getBoundingClientRect(); const target = sc.scrollTop + r.top - 250; await this.scrollTo(sc, target, 900); },
+  scroller(el) { let n = el.parentElement; while (n) { const o = W().getComputedStyle(n).overflowY; if ((o === "auto" || o === "scroll") && n.scrollHeight > n.clientHeight + 4) return n; n = n.parentElement; } return D().scrollingElement; },
+  async scrollTo(sc, to, ms) { if (typeof sc === "string") sc = D().querySelector(sc) || D().scrollingElement; const from = sc.scrollTop, t0 = performance.now(); sc.style.scrollBehavior = "auto"; return new Promise((res) => { (function f(t) { const p = Math.min(1, (t - t0) / ms); sc.scrollTop = from + (to - from) * ease(p); if (p < 1) requestAnimationFrame(f); else res(); })(t0); }); },
+  async scrollBy(sc, dy, ms) { if (typeof sc === "string") sc = D().querySelector(sc) || D().scrollingElement; return this.scrollTo(sc, sc.scrollTop + dy, ms); },
+  async type(sel, text, per) { const el = this.el(sel); el.focus(); for (const ch of text) { el.value += ch; el.dispatchEvent(new Event("input", { bubbles: true })); await sleep(per || 85); } },
+  async wait(ms) { await sleep(ms); },
+  async answer(wrong) {
+    const L = W().__schritt.lesson, ch = L.queue[L.i], T = this;
+    if (ch.type === "info") { await T.tap("#lCheck", { after: 700 }); return; }
+    if (ch.type === "select" || ch.type === "listen") {
+      let target = ch.answer; if (wrong) target = (ch.options.filter((o) => o !== ch.answer)[0]);
+      await T.tap((d) => [...d.querySelectorAll(".opt")].find((b) => b.dataset.v === target), { after: 500 });
+    } else if (ch.type === "type") { await T.tap("#typed", { focus: true, after: 200 }); await T.type("#typed", String(ch.answer), 110); await sleep(350); }
+    else if (ch.type === "build" || ch.type === "listenbuild") { for (const tk of ch.tokens) { await T.tap((d) => [...d.querySelectorAll("#bank .tok:not(.used)")].find((b) => b.textContent === tk), { after: 260, hide: false }); } }
+    else if (ch.type === "match") { for (const p of ch.pairs) { const k = p.key; await T.tap((d) => d.querySelector('.opt[data-side="tl"][data-key="' + CSS.escape(k) + '"]:not(.done)'), { after: 200, hide: false }); await T.tap((d) => d.querySelector('.opt:not([data-side="tl"])[data-key="' + CSS.escape(k) + '"]:not(.done)'), { after: 450, hide: false }); } await sleep(900); if (W().__schritt.lesson.state === "fb") { await T.tap("#lNext", { after: 700 }); } return; }
+    await T.tap("#lCheck", { after: 1700 });   // Check, and read the feedback
+    await T.tap("#lNext", { after: 600 });     // Continue
+  }
+};
+</script></body></html>
