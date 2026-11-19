@@ -1,0 +1,1 @@
+{"name":"schritt-demo-video","private":true,"version":"1.0.0","description":"Renders the Schritt launch video (crayon style) from real app screenshots","scripts":{"build":"node build.js"},"dependencies":{"puppeteer-core":"^23.11.1"}}

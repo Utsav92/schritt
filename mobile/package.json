@@ -1,0 +1,26 @@
+{
+  "name": "schritt-mobile",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Capacitor wrapper that packages the Schritt web app for the App Store and Google Play",
+  "scripts": {
+    "prepare-web": "node prepare-web.js",
+    "assets": "npx capacitor-assets generate --iconBackgroundColor #0a0a10 --splashBackgroundColor #000000",
+    "android:add": "npx cap add android",
+    "ios:add": "npx cap add ios",
+    "sync": "npm run prepare-web && npx cap sync",
+    "android:open": "npx cap open android",
+    "ios:open": "npx cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.0",
+    "@capacitor/core": "^6.1.0",
+    "@capacitor/ios": "^6.1.0",
+    "@capacitor/splash-screen": "^6.0.0",
+    "@capacitor/status-bar": "^6.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^6.1.0"
+  }
+}

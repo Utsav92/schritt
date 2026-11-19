@@ -1,0 +1,12 @@
+{
+  "appId": "app.schritt.learn",
+  "appName": "Schritt",
+  "webDir": "www",
+  "backgroundColor": "#000000",
+  "ios": { "contentInset": "always", "backgroundColor": "#000000", "preferredContentMode": "mobile" },
+  "android": { "backgroundColor": "#000000", "allowMixedContent": false },
+  "plugins": {
+    "SplashScreen": { "launchShowDuration": 900, "backgroundColor": "#000000", "showSpinner": false },
+    "StatusBar": { "style": "DARK", "backgroundColor": "#000000" }
+  }
+}

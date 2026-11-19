@@ -1,0 +1,24 @@
+--- a/backend/sonic_studio/main.py
++++ b/backend/sonic_studio/main.py
+@@ -105,6 +105,24 @@
+     app = FastAPI(title="Sonic Studio AI", version=__version__, lifespan=lifespan, dependencies=[Depends(guard)])
+
++    # Optional: let a website you trust call this API from the browser (e.g. the Schritt Music Studio tab).
++    # Off unless SONIC_CORS_ORIGINS is set, e.g. SONIC_CORS_ORIGINS=https://schritt-rosy.vercel.app,http://localhost:8880
++    # Only listed origins are allowed, and cookies are NOT shared (the bearer token travels in a header).
++    import os as _os
++    _cors = [o.strip().rstrip("/") for o in _os.environ.get("SONIC_CORS_ORIGINS", "").split(",") if o.strip()]
++    if _cors:
++        from fastapi.middleware.cors import CORSMiddleware
++
++        _opts = dict(allow_origins=_cors, allow_credentials=False, allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
++                     allow_headers=["Authorization", "Content-Type"], max_age=600)
++        try:  # Chrome asks permission before a public https page may reach a local address (Starlette >= 0.45)
++            app.add_middleware(CORSMiddleware, allow_private_network=True, **_opts)
++        except TypeError:
++            app.add_middleware(CORSMiddleware, **_opts)
++        # The CSRF check below compares Origin with Host; allow the same origins for state-changing requests.
++        allowed_origins.update(_cors)
++
+     @app.middleware("http")
+     async def hardening(request: Request, call_next):

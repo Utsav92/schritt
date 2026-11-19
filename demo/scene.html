@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Schritt launch video (crayon)</title>
+<style>
+  html,body{margin:0;background:#f6efe0}
+  #stage{position:relative;width:1280px;height:720px;overflow:hidden;background:#f6efe0;font-family:"Ink Free","Segoe Print","Bradley Hand ITC",cursive;color:#3b3a46}
+  #paper{position:absolute;inset:0;opacity:.55;mix-blend-mode:multiply;pointer-events:none}
+  .scene{position:absolute;inset:0;display:none}
+  .abs{position:absolute}
+  .crayon{filter:url(#crayon)}
+  .thin{filter:url(#crayonThin)}
+  .photo{filter:url(#crayonPhoto)}
+  .big{font-size:210px;line-height:1;white-space:nowrap;-webkit-text-stroke:7px currentColor}
+  .h1{font-size:92px;line-height:1.05;white-space:nowrap;-webkit-text-stroke:3.5px currentColor}
+  .h2{font-size:60px;line-height:1.1;white-space:nowrap;-webkit-text-stroke:2px currentColor}
+  .sub{font-size:50px;line-height:1.15;white-space:nowrap}
+  .sm{font-size:34px;white-space:nowrap}
+  .center{left:0;right:0;text-align:center}
+  .chip{position:absolute;box-sizing:border-box;border:6px solid;border-radius:26px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:"Segoe UI","Nirmala UI","Malgun Gothic","Microsoft YaHei","Yu Gothic","Leelawadee UI","Segoe UI Historic",sans-serif;font-weight:700;color:#2f2e3b}
+  .img{position:absolute;display:block}
+  .card{position:absolute;box-sizing:border-box;border:7px solid;border-radius:34px;background:#fffaf0}
+  ul.list{list-style:none;margin:0;padding:0}
+  ul.list li{position:absolute;left:0;font-size:40px;white-space:nowrap}
+</style>
+</head>
+<body>
+<div id="stage">
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <!-- waxy crayon: wobbly edges + grainy fill (seed changes a few times a second so strokes "boil") -->
+    <filter id="crayon" x="-6%" y="-6%" width="112%" height="112%" color-interpolation-filters="sRGB">
+      <feTurbulence id="tw1" type="fractalNoise" baseFrequency="0.028" numOctaves="2" seed="3" result="warp"/>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="7" xChannelSelector="R" yChannelSelector="G" result="wob"/>
+      <feTurbulence id="tg1" type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="8" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3.2 0 0 0 -0.62" result="mask"/>
+      <feComposite in="wob" in2="mask" operator="in"/>
+    </filter>
+    <filter id="crayonThin" x="-6%" y="-6%" width="112%" height="112%" color-interpolation-filters="sRGB">
+      <feTurbulence id="tw2" type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="5" result="warp"/>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="4" xChannelSelector="R" yChannelSelector="G" result="wob"/>
+      <feTurbulence id="tg2" type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="2" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3 0 0 0 -0.45" result="mask"/>
+      <feComposite in="wob" in2="mask" operator="in"/>
+    </filter>
+    <!-- screenshots keep their legibility: slight wobble, a little wax grain, softened colours -->
+    <filter id="crayonPhoto" x="-3%" y="-3%" width="106%" height="106%" color-interpolation-filters="sRGB">
+      <feTurbulence id="tw3" type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="11" result="warp"/>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="3.5" xChannelSelector="R" yChannelSelector="G" result="wob"/>
+      <feComponentTransfer in="wob" result="soft"><feFuncR type="linear" slope=".92" intercept=".05"/><feFuncG type="linear" slope=".92" intercept=".05"/><feFuncB type="linear" slope=".9" intercept=".04"/></feComponentTransfer>
+      <feTurbulence id="tg3" type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="4" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.6 0 0 0 0.05" result="mask"/>
+      <feComposite in="soft" in2="mask" operator="in"/>
+    </filter>
+    <filter id="paperF" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="21" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 .55  0 0 0 0 .47  0 0 0 0 .36  0 0 0 .5 -.05"/>
+    </filter>
+  </defs>
+</svg>
+<svg id="paper" width="1280" height="720"><rect width="1280" height="720" filter="url(#paperF)"/></svg>
+
+<!-- 1. title -->
+<section class="scene" id="s1">
+  <div class="abs big crayon center" id="t1b" style="top:178px;color:#3d7be6">Schritt</div>
+  <div class="abs big crayon center" id="t1" style="top:170px;color:#e4572e">Schritt</div>
+  <svg class="abs crayon" style="left:330px;top:392px" width="620" height="60" viewBox="0 0 620 60"><path id="u1" d="M8 34 C70 6, 120 58, 190 30 S300 8, 370 34 S500 56, 612 20" fill="none" stroke="#f7c948" stroke-width="16" stroke-linecap="round"/></svg>
+  <div class="abs sub thin center" id="t1s" style="top:470px;color:#3b3a46">Learn any language, your way.</div>
+  <img class="img" id="a1" src="../public/art/fox.webp" style="left:110px;top:430px;width:200px">
+  <img class="img" id="a2" src="../public/art/starstruck.webp" style="left:1000px;top:90px;width:190px">
+  <img class="img" id="a3" src="../public/art/dragon.webp" style="left:980px;top:440px;width:190px">
+  <img class="img" id="a4" src="../public/art/celebrate.webp" style="left:130px;top:80px;width:170px">
+</section>
+
+<!-- 2. languages -->
+<section class="scene" id="s2">
+  <div class="abs h1 crayon center" id="t2" style="top:50px;color:#e4572e">17 languages</div>
+  <div class="abs sm thin center" id="t2s" style="top:160px;color:#3b3a46">and your own, from any word list</div>
+  <div id="chips"></div>
+</section>
+
+<!-- 3. levels -->
+<section class="scene" id="s3">
+  <div class="abs h1 crayon" id="t3" style="left:70px;top:44px;color:#3d7be6">Six levels. A1 to C2.</div>
+  <div class="abs sub thin" id="t3s" style="left:74px;top:150px;color:#3b3a46">180 lessons in every language</div>
+  <div id="steps"></div>
+  <img class="img" id="hero3" src="../public/art/fox.webp" style="width:130px;left:0;top:0">
+</section>
+
+<!-- 4. app -->
+<section class="scene" id="s4">
+  <div class="abs h1 crayon center" id="t4" style="top:28px;color:#4caf7d">A path that shows what's next</div>
+  <svg class="abs crayon" id="f4a" style="left:50px;top:150px" width="720" height="470" viewBox="0 0 720 470"><rect x="6" y="6" width="708" height="458" rx="26" fill="#fffaf0" stroke="#e4572e" stroke-width="9"/></svg>
+  <img class="img photo" id="p4a" src="shots/desktop-learn.png" style="left:68px;top:166px;width:684px;border-radius:16px">
+  <svg class="abs crayon" id="f4b" style="left:845px;top:120px" width="300" height="560" viewBox="0 0 300 560"><rect x="6" y="6" width="288" height="548" rx="42" fill="#fffaf0" stroke="#3d7be6" stroke-width="9"/></svg>
+  <img class="img photo" id="p4b" src="shots/phone-learn.png" style="left:864px;top:150px;width:262px;border-radius:26px">
+  <div class="abs sm thin" id="c4a" style="left:70px;top:638px;color:#3b3a46">Levels, daily quests and your streak at a glance</div>
+</section>
+
+<!-- 5. exercises -->
+<section class="scene" id="s5">
+  <div class="abs h1 crayon" id="t5" style="left:70px;top:44px;color:#8a5ad6">Every lesson<br>mixes it up</div>
+  <ul class="list thin abs" id="l5" style="left:90px;top:300px;color:#3b3a46">
+    <li style="top:0">Pick the meaning</li><li style="top:68px">Listen and choose</li><li style="top:136px">Match the pairs</li><li style="top:204px">Build the sentence</li><li style="top:272px">Type what you hear</li>
+  </ul>
+  <svg class="abs crayon" id="ck5" style="left:20px;top:300px" width="60" height="360" viewBox="0 0 60 360"></svg>
+  <img class="img photo" id="p5a" src="shots/phone-lesson.png" style="left:560px;top:90px;width:230px;border-radius:24px">
+  <img class="img photo" id="p5b" src="shots/phone-feedback.png" style="left:810px;top:120px;width:230px;border-radius:24px">
+  <img class="img photo" id="p5c" src="shots/phone-wrong.png" style="left:1030px;top:150px;width:230px;border-radius:24px">
+</section>
+
+<!-- 6. characters -->
+<section class="scene" id="s6">
+  <div class="abs h1 crayon" id="t6" style="left:70px;top:36px;color:#e86aa6">Friendly faces,</div>
+  <div class="abs sub thin" id="t6s" style="left:74px;top:132px;color:#3b3a46">right answer or not quite</div>
+  <div id="faces"></div>
+</section>
+
+<!-- 7. engagement -->
+<section class="scene" id="s7">
+  <div class="abs h1 crayon" id="t7" style="left:70px;top:50px;color:#f29e4c">Keep going</div>
+  <div class="abs" id="g7" style="left:70px;top:200px">
+    <svg class="abs crayon" id="i7a" style="left:0;top:0" width="130" height="150" viewBox="0 0 24 24"><path d="M12 2s5 4.5 5 9.5A5 5 0 0 1 12 17a5 5 0 0 1-5-5.5c0-1.7.8-3 1.6-4C9 9 10 10 10.8 10 10.6 7 12 2 12 2zM12 22a7 7 0 0 1-7-7c0-1 .2-2 .5-2.800C7 14 9 16 12 16s5-2 6.500-3.800c.3.800.5 1.800.5 2.800a7 7 0 0 1-7 7z" fill="#e4572e"/></svg>
+    <div class="abs h2 thin" id="n7a" style="left:160px;top:12px;color:#3b3a46">Streaks and freezes</div>
+    <svg class="abs crayon" id="i7b" style="left:0;top:190px" width="130" height="150" viewBox="0 0 24 24"><path d="M6.200 3h11.600L22 9.200 12 21.500 2 9.200zM8.300 5 6.200 8.800h11.600L15.700 5z" fill="#3d7be6"/></svg>
+    <div class="abs h2 thin" id="n7b" style="left:160px;top:202px;color:#3b3a46">Gems and a shop</div>
+    <svg class="abs crayon" id="i7c" style="left:0;top:380px" width="130" height="150" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4" fill="none" stroke="#4caf7d" stroke-width="2.4"/><path d="m7.500 12.500 3 3 6-7" fill="none" stroke="#4caf7d" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="abs h2 thin" id="n7c" style="left:160px;top:392px;color:#3b3a46">Daily quests</div>
+  </div>
+  <img class="img photo" id="p7" src="shots/phone-shop.png" style="left:850px;top:70px;width:300px;border-radius:30px">
+</section>
+
+<!-- 8. pricing -->
+<section class="scene" id="s8">
+  <div class="abs h1 crayon center" id="t8" style="top:40px;font-size:66px;color:#3b3a46">Start free. Go Plus when you're ready.</div>
+  <div class="card crayon" id="cf" style="left:110px;top:170px;width:480px;height:500px;border-color:#4caf7d"></div>
+  <div class="abs h2 crayon" id="cft" style="left:160px;top:195px;color:#4caf7d">Free</div>
+  <ul class="list thin abs" id="lf" style="left:165px;top:300px;color:#3b3a46">
+    <li style="top:0">Levels A1 to B1</li><li style="top:70px">5 hearts</li><li style="top:140px">Daily quests</li><li style="top:210px">Skippable ads</li>
+  </ul>
+  <div class="card crayon" id="cp" style="left:680px;top:170px;width:490px;height:500px;border-color:#f29e4c;background:#fff3d2"></div>
+  <div class="abs h2 crayon" id="cpt" style="left:730px;top:195px;color:#e08a1e">&#9733; Plus</div>
+  <ul class="list thin abs" id="lp" style="left:735px;top:290px;color:#3b3a46">
+    <li style="top:0">Levels B2 to C2</li><li style="top:62px">Unlimited hearts</li><li style="top:124px">Mistakes review</li><li style="top:186px">Double gems</li><li style="top:248px">No ads</li>
+  </ul>
+</section>
+
+<!-- 9. privacy -->
+<section class="scene" id="s9">
+  <div class="abs h1 crayon center" id="t9" style="top:40px;color:#3d7be6">Private by design</div>
+  <svg class="abs crayon" id="lock9" style="left:140px;top:200px" width="260" height="330" viewBox="0 0 24 24"><rect x="4" y="10.500" width="16" height="11" rx="2.500" fill="#f7c948" stroke="#b9801b" stroke-width="1.100"/><path d="M8 10.500V7.500a4 4 0 0 1 8 0v3" fill="none" stroke="#b9801b" stroke-width="1.500" stroke-linecap="round"/><circle cx="12" cy="15.500" r="1.400" fill="#b9801b"/></svg>
+  <ul class="list thin abs" id="l9" style="left:520px;top:190px;color:#3b3a46">
+    <li style="top:0;font-size:46px">Your progress stays on your device</li><li style="top:90px;font-size:46px">No analytics. No tracking.</li><li style="top:180px;font-size:46px">Installs on iPhone and Android, works offline</li><li style="top:270px;font-size:46px">Erase everything in one tap</li>
+  </ul>
+</section>
+
+<!-- 10. outro -->
+<section class="scene" id="s10">
+  <div class="abs big crayon center" id="o1b" style="top:150px;color:#3d7be6">Schritt</div>
+  <div class="abs big crayon center" id="o1" style="top:142px;color:#e4572e">Schritt</div>
+  <div class="abs h1 crayon center" id="o2" style="top:372px;color:#4caf7d">Now live</div>
+  <div class="abs sub thin center" id="o3" style="top:500px;color:#3b3a46">schritt-rosy.vercel.app</div>
+  <svg class="abs crayon" style="left:380px;top:555px" width="520" height="40" viewBox="0 0 520 40"><path id="u10" d="M6 22 C70 4, 120 38, 190 20 S320 6, 390 22 S470 34, 514 14" fill="none" stroke="#f7c948" stroke-width="12" stroke-linecap="round"/></svg>
+  <img class="img" id="b1" src="../public/art/fox.webp" style="left:90px;top:420px;width:170px">
+  <img class="img" id="b2" src="../public/art/axolotl.webp" style="left:290px;top:480px;width:140px">
+  <img class="img" id="b3" src="../public/art/robot.webp" style="left:850px;top:480px;width:140px">
+  <img class="img" id="b4" src="../public/art/cat.webp" style="left:1020px;top:420px;width:170px">
+  <img class="img" id="b5" src="../public/art/celebrate.webp" style="left:1000px;top:60px;width:170px">
+  <img class="img" id="b6" src="../public/art/love.webp" style="left:110px;top:70px;width:160px">
+</section>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const clamp01 = (x) => Math.max(0, Math.min(1, x));
+const pr = (t, a, d) => clamp01((t - a) / d);
+const E = { out3: (t) => 1 - Math.pow(1 - t, 3), out5: (t) => 1 - Math.pow(1 - t, 5), inOut: (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+  back: (t) => { const c1 = 1.25, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); } };
+function put(el, o) {
+  o = o || {}; const op = o.o === undefined ? 1 : o.o;
+  el.style.opacity = op; el.style.transform = "translate(" + (o.x || 0) + "px," + (o.y || 0) + "px) rotate(" + (o.r || 0) + "deg) scale(" + (o.s === undefined ? 1 : o.s) + ")";
+  if (o.clip !== undefined) el.style.clipPath = "inset(-30% " + ((1 - o.clip) * 100) + "% -30% -8%)";
+}
+function draw(path, p) { const L = path.getTotalLength(); path.style.strokeDasharray = L; path.style.strokeDashoffset = L * (1 - p); }
+function pop(el, t, a, d, o) { // sticker pop with a gentle float afterwards
+  o = o || {}; const p = pr(t, a, d || .5), s = E.back(p), fl = Math.sin((t - a) * 2.2 + (o.ph || 0)) * (o.fl === undefined ? 5 : o.fl) * p;
+  put(el, { o: clamp01(p * 3), s: .25 + .75 * s, r: (o.r || 0) * s + Math.sin((t - a) * 1.7) * 1.5 * p, y: fl });
+}
+const TXT = (el, t, a, d) => put(el, { o: clamp01((t - a) / 0.15), clip: E.out3(pr(t, a, d)) }); // text "written" left to right
+
+/* crayon colours */
+const COL = ["#e4572e", "#f29e4c", "#f7c948", "#4caf7d", "#3d7be6", "#8a5ad6", "#e86aa6"];
+const TINT = ["#fde0d6", "#fde7cf", "#fdf1c4", "#d8f0e2", "#d9e6fb", "#e7dcf8", "#fadbea"];
+
+/* dynamic content */
+const LANGS = ["Deutsch", "Español", "Español (México)", "Français", "Italiano", "Português", "Nederlands", "Svenska", "Türkçe", "Tiếng Việt", "한국어", "中文", "日本語", "ภาษาไทย", "हिन्दी", "اردو", "العربية"];
+const chips = LANGS.map((name, i) => {
+  const row = i < 6 ? 0 : i < 12 ? 1 : 2, col = row < 2 ? (i - row * 6) : (i - 12), per = row < 2 ? 6 : 5;
+  const w = 188, gap = 14, total = per * w + (per - 1) * gap, x0 = (1280 - total) / 2 + col * (w + gap), y = 240 + row * 130;
+  const el = document.createElement("div"); el.className = "chip crayon"; el.textContent = name;
+  el.style.cssText = "left:" + x0 + "px;top:" + y + "px;width:" + w + "px;height:96px;font-size:" + (name.length > 12 ? 24 : 32) + "px;border-color:" + COL[i % 7] + ";background:" + TINT[i % 7];
+  $("chips").appendChild(el); return { el, rot: ((i * 37) % 7 - 3) };
+});
+const LV = [["A1", "Beginner", 0], ["A2", "Elementary", 3], ["B1", "Intermediate", 4], ["B2", "Upper", 1], ["C1", "Advanced", 5], ["C2", "Proficiency", 6]];
+const steps = LV.map((v, i) => {
+  const w = 176, x = 80 + i * 190, h = 150 + i * 56, y = 660 - h;
+  const el = document.createElement("div"); el.className = "abs crayon"; el.style.cssText = "left:" + x + "px;top:" + y + "px;width:" + w + "px;height:" + h + "px;box-sizing:border-box;border:7px solid " + COL[v[2]] + ";background:" + TINT[v[2]] + ";border-radius:22px 22px 6px 6px;text-align:center;padding-top:14px";
+  el.innerHTML = '<div style="font-size:64px;line-height:1;color:' + COL[v[2]] + '">' + v[0] + '</div><div style="font-size:26px;margin-top:6px">' + v[1] + "</div>";
+  const tag = document.createElement("div"); tag.className = "abs crayon"; const free = i < 3;
+  tag.style.cssText = "left:" + x + "px;top:" + (y - 52) + "px;width:" + w + "px;text-align:center;font-size:34px;color:" + (free ? "#4caf7d" : "#e08a1e");
+  tag.textContent = free ? "Free" : "★ Plus";
+  $("steps").appendChild(el); $("steps").appendChild(tag); return { el, tag, x, y, w };
+});
+const EM = ["happy", "starstruck", "wink", "love", "determined", "celebrate", "oops", "thinking", "sleepy", "shocked", "sad", "relieved"], AV = ["fox", "axolotl", "bear", "afro", "curly", "violet", "robot", "cat", "dragon"];
+const faces = [];
+EM.forEach((n, i) => { const im = document.createElement("img"); im.className = "img"; im.src = "../public/art/" + n + ".webp"; const c = i % 4, r = (i / 4) | 0; im.style.cssText = "width:128px;left:" + (70 + c * 140) + "px;top:" + (250 + r * 140) + "px"; $("faces").appendChild(im); faces.push({ im, i }); });
+AV.forEach((n, i) => { const im = document.createElement("img"); im.className = "img"; im.src = "../public/art/" + n + ".webp"; const c = i % 3, r = (i / 3) | 0; im.style.cssText = "width:150px;left:" + (700 + c * 175) + "px;top:" + (170 + r * 165) + "px"; $("faces").appendChild(im); faces.push({ im, i: i + 12 }); });
+const ck = $("ck5"); let ckHtml = ""; for (let i = 0; i < 5; i++) ckHtml += '<path class="ckp" d="M8 ' + (30 + i * 68) + ' l14 16 l26 -30" fill="none" stroke="' + COL[(i + 3) % 7] + '" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>'; ck.innerHTML = ckHtml;
+const ckp = [...ck.querySelectorAll(".ckp")];
+
+/* scene animations: lt = seconds since this scene began, dur = scene length */
+const SC = {
+  s1(lt) {
+    TXT($("t1b"), lt, .35, 1.5); TXT($("t1"), lt, .25, 1.5); draw($("u1"), E.inOut(pr(lt, 1.6, .9)));
+    put($("t1s"), { o: E.out3(pr(lt, 2.3, .7)), y: 24 * (1 - E.out3(pr(lt, 2.3, .7))) });
+    pop($("a1"), lt, 1.4, .6, { r: -8 }); pop($("a2"), lt, 1.7, .6, { r: 8, ph: 1 }); pop($("a3"), lt, 2.0, .6, { r: 6, ph: 2 }); pop($("a4"), lt, 2.3, .6, { r: -6, ph: 3 });
+  },
+  s2(lt) {
+    TXT($("t2"), lt, .2, .9); put($("t2s"), { o: E.out3(pr(lt, .9, .6)) });
+    chips.forEach((c, i) => { const p = pr(lt, .9 + i * .16, .5); put(c.el, { o: clamp01(p * 3), s: .4 + .6 * E.back(p), r: c.rot * E.back(p), y: Math.sin(lt * 1.6 + i) * 2.5 * p }); });
+  },
+  s3(lt) {
+    TXT($("t3"), lt, .2, 1.1); put($("t3s"), { o: E.out3(pr(lt, 1.0, .6)) });
+    let cur = 0;
+    steps.forEach((s, i) => { const a = 1.2 + i * .6, p = pr(lt, a, .6); const e = E.out5(p); put(s.el, { o: clamp01(p * 4), y: (1 - e) * 220 }); put(s.tag, { o: E.out3(pr(lt, a + .35, .4)), y: (1 - E.out3(pr(lt, a + .35, .4))) * 12 }); if (lt >= a + .3) cur = i; });
+    const s = steps[cur], hop = Math.abs(Math.sin(pr(lt, 1.2 + cur * .6 + .3, .6) * Math.PI)) * 60;
+    put($("hero3"), { o: lt > 1.4 ? 1 : 0, x: s.x + s.w / 2 - 65, y: s.y - 192 - hop });
+  },
+  s4(lt) {
+    TXT($("t4"), lt, .2, 1.2);
+    const a = E.out5(pr(lt, .9, .9)), b = E.out5(pr(lt, 1.5, .9));
+    put($("f4a"), { o: a, x: -120 * (1 - a), r: -1.6 * a }); put($("p4a"), { o: a, x: -120 * (1 - a), r: -1.6 * a });
+    put($("f4b"), { o: b, y: 160 * (1 - b), r: 2 * b }); put($("p4b"), { o: b, y: 160 * (1 - b), r: 2 * b });
+    put($("c4a"), { o: E.out3(pr(lt, 2.4, .7)) });
+  },
+  s5(lt) {
+    TXT($("t5"), lt, .2, 1.2);
+    $("l5").querySelectorAll("li").forEach((li, i) => { const p = E.out3(pr(lt, 1.0 + i * .75, .5)); li.style.opacity = p; li.style.transform = "translateX(" + (-30 * (1 - p)) + "px)"; });
+    ckp.forEach((c, i) => draw(c, E.inOut(pr(lt, 1.35 + i * .75, .35))));
+    [["p5a", 1.2], ["p5b", 2.2], ["p5c", 3.2]].forEach(([id, a], i) => { const p = E.out5(pr(lt, a, .8)); put($(id), { o: clamp01(p * 3), y: 200 * (1 - p) + Math.sin(lt * 1.3 + i) * 4 * p, r: (i - 1) * 3 * p }); });
+  },
+  s6(lt) {
+    TXT($("t6"), lt, .2, 1.0); put($("t6s"), { o: E.out3(pr(lt, 1.0, .6)) });
+    faces.forEach((f) => { const p = pr(lt, .9 + f.i * .13, .55), s = E.back(p); put(f.im, { o: clamp01(p * 3), s: .2 + .8 * s, r: ((f.i % 5) - 2) * 2.2 * s, y: Math.sin(lt * 2 + f.i) * 6 * p }); });
+  },
+  s7(lt) {
+    TXT($("t7"), lt, .2, 1.0);
+    [["i7a", "n7a", 1.0], ["i7b", "n7b", 2.4], ["i7c", "n7c", 3.8]].forEach(([i, n, a]) => { const p = pr(lt, a, .6), e = E.back(p); put($(i), { o: clamp01(p * 3), s: .3 + .7 * e, r: -6 * (1 - e) }); TXT($(n), lt, a + .25, .8); });
+    const p = E.out5(pr(lt, 1.6, .9)); put($("p7"), { o: clamp01(p * 3), x: 160 * (1 - p), r: 2.5 * p });
+  },
+  s8(lt) {
+    TXT($("t8"), lt, .2, 1.3);
+    const a = E.out5(pr(lt, 1.0, .8)), b = E.out5(pr(lt, 1.6, .8));
+    put($("cf"), { o: a, y: 80 * (1 - a), r: -1 * a }); put($("cft"), { o: a, y: 80 * (1 - a) }); put($("lf"), { o: 1, y: 0 });
+    put($("cp"), { o: b, y: 80 * (1 - b), r: 1 * b }); put($("cpt"), { o: b, y: 80 * (1 - b) });
+    $("lf").querySelectorAll("li").forEach((li, i) => { const p = E.out3(pr(lt, 2.0 + i * .7, .45)); li.style.opacity = p; li.style.transform = "translateX(" + (-26 * (1 - p)) + "px)"; li.innerHTML = '<span style="color:#4caf7d">&#10003;&nbsp;</span>' + li.dataset.t; });
+    $("lp").querySelectorAll("li").forEach((li, i) => { const p = E.out3(pr(lt, 3.6 + i * .8, .45)); li.style.opacity = p; li.style.transform = "translateX(" + (-26 * (1 - p)) + "px)"; li.innerHTML = '<span style="color:#e08a1e">&#10003;&nbsp;</span>' + li.dataset.t; });
+  },
+  s9(lt) {
+    TXT($("t9"), lt, .2, 1.0); const p = pr(lt, .9, .7); put($("lock9"), { o: clamp01(p * 3), s: .3 + .7 * E.back(p), r: -5 * (1 - E.back(p)) });
+    $("l9").querySelectorAll("li").forEach((li, i) => { const q = E.out3(pr(lt, 1.6 + i * 1.1, .6)); li.style.opacity = q; li.style.transform = "translateX(" + (-30 * (1 - q)) + "px)"; });
+  },
+  s10(lt) {
+    TXT($("o1b"), lt, .2, 1.2); TXT($("o1"), lt, .12, 1.2); const p = E.back(pr(lt, 1.3, .6)); put($("o2"), { o: clamp01(p * 3), s: .4 + .6 * p, r: -3 * p });
+    put($("o3"), { o: E.out3(pr(lt, 2.0, .6)) }); draw($("u10"), E.inOut(pr(lt, 2.4, .8)));
+    ["b1", "b2", "b3", "b4", "b5", "b6"].forEach((id, i) => pop($(id), lt, 1.0 + i * .22, .6, { r: (i % 2 ? 6 : -6), ph: i, fl: 7 }));
+  }
+};
+["lf", "lp"].forEach((id) => $(id).querySelectorAll("li").forEach((li) => { li.dataset.t = li.textContent; li.style.opacity = 0; }));
+const TL = { scenes: [], total: 60 };
+function setTimeline(tl) { TL.scenes = tl.scenes; TL.total = tl.total; }
+let lastBoil = -1;
+function render(t) {
+  const boil = Math.floor(t * 5); // new crayon grain/wobble 5 times a second
+  if (boil !== lastBoil) { lastBoil = boil; [["tw1", 3], ["tg1", 8], ["tw2", 5], ["tg2", 2], ["tw3", 11], ["tg3", 4]].forEach(([id, s]) => $(id).setAttribute("seed", (s + boil * 3) % 97)); }
+  TL.scenes.forEach((s) => {
+    const el = $(s.id), lt = t - s.start;
+    if (lt < -0.02 || lt > s.dur + 0.45) { el.style.display = "none"; return; }
+    el.style.display = "block";
+    const fadeIn = clamp01((lt + .02) / .45), fadeOut = lt > s.dur ? 1 - clamp01((lt - s.dur) / .45) : 1;
+    el.style.opacity = Math.min(fadeIn, fadeOut);
+    SC[s.id](Math.max(0, lt), s.dur);
+  });
+}
+window.setTimeline = setTimeline; window.render = render;
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "name": "schritt",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Schritt language learning app with optional Google sign-in, sync and Stripe subscriptions",
+  "engines": { "node": "22.x" },
+  "scripts": { "test": "node test_engine.js && node test_server.js && node test_stripe_server.js && node test_subjects.js && node test_apply.js" }
+}
