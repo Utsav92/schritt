@@ -57,7 +57,7 @@
       '<footer class="fr-foot"><div class="fr-cols">' +
       '<div><h4>Schritt</h4><button data-page="about">About us</button><button data-page="mission">Mission and values</button><button data-page="products">Products</button><button data-page="careers">Careers</button></div>' +
       '<div><h4>Help and support</h4><button data-page="help">Help center</button><button data-page="help">Contact support</button><button data-page="security">Safety and security</button></div>' +
-      '<div><h4>Legal</h4><button data-page="privacy">Privacy</button><button data-page="terms">Terms</button></div>' +
+      '<div><h4>Legal</h4><a href="/privacy.html">Privacy policy</a><a href="/terms.html">Terms of use</a></div>' +
       (socials.length ? '<div><h4>Follow us</h4>' + socials.join("") + "</div>" : "") + '</div><p class="fr-copy-line">&copy; ' + new Date().getFullYear() + ' Schritt. Made for learners.</p></footer>';
   }
   function reveal(el) {

@@ -26,7 +26,7 @@ window.SCHRITT_CONFIG = {
        { sponsor: "Acme", headline: "Try Acme", body: "One line.", cta: "Visit", url: "https://acme.example/?ref=schritt", image: "art/ads/acme.webp" }
      url must be https. image is optional and must live in art/. With no creatives only a Schritt Plus promo is shown. */
   ads: { enabled: false, everyLessons: 3, skipAfterSeconds: 5, creatives: [] },
-  legal: { operator: "", contact: "" }, // shown in the privacy policy and terms; fill these in before you go public
+  legal: { operator: "Schritt", contact: "pandyautsav@gmail.com" }, // shown in the privacy policy and terms; fill these in before you go public
   /* Company pages. Leave things empty and they stay hidden. Only https links are used. */
   social: {}, // e.g. { instagram: "https://instagram.com/yourname", youtube: "https://youtube.com/@yourname", x: "https://x.com/yourname" }
   careers: {

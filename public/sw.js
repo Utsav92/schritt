@@ -1,5 +1,5 @@
 /* Offline cache for Schritt. Bump VERSION when files change. */
-const VERSION = "schritt-v23";
+const VERSION = "schritt-v24";
 const CORE = ["./", "index.html", "style.css", "apple.css", "data.js", "packs_more.js", "units_adv.js", "adv1.js", "adv2.js", "adv3.js", "units_more.js", "adv4.js", "adv5.js", "adv6.js", "engine.js", "config.js", "policy.js", "pages.js", "apply.js", "front.js", "subjects.js", "visuals.js", "tv.js", "math.js", "music.js", "studio.js", "app.js", "manifest.json", "icon.svg", "icon-192.png", "icon-maskable-512.png", "apple-touch-icon.png", "icon-512.png"].concat(["happy","starstruck","wink","love","determined","celebrate","oops","thinking","sleepy","shocked","sad","relieved","fox","axolotl","bear","afro","curly","violet","robot","cat","dragon"].map((n) => "art/" + n + ".webp"));
 
 self.addEventListener("install", (e) => {
